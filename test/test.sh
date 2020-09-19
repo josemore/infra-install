@@ -15,7 +15,7 @@ EOF'
 sudo nc -w 1 -l 443 > network.bin &
 sleep 180 && echo "QUIT" | nc localhost 443 &
 
-NR_LICENSE_KEY=fake_license bash -c "$(curl -L https://raw.githubusercontent.com/fryckbos/infra-install/master/install.sh)"
+NR_LICENSE_KEY=012345678901234567890123456789012345NRAL bash -c "$(curl -L https://raw.githubusercontent.com/fryckbos/infra-install/master/install.sh)"
 
 fg %1
 kill %2
