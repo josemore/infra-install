@@ -16,7 +16,7 @@ if [ "$1" == "--verbose" ]; then
     shift
 fi
 
-cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")"/terraform
+cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")"/test
 
 echo "Initialising Terraform..."
 if [ "$VERBOSE" == "true" ]; then
@@ -48,7 +48,7 @@ for LINE in $(cat output | grep '==== Test result' | sort | cut -d' ' -f 6-); do
 echo
 
 if cat output | grep '==== Test result' | grep 'failure' 1>/dev/null; then
-    echo -e "\033[1;31mOne or more tests failed\033[0m (./terraform/output contains the full log)"
+    echo -e "\033[1;31mOne or more tests failed\033[0m (./test/output contains the full log)"
     exit 1
 else
     echo -e "\033[1;32mAll tests succeeded\033[0m"

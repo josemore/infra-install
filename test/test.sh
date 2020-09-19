@@ -15,13 +15,7 @@ EOF'
 sudo nc -w 1 -l 443 > network.bin &
 sleep 180 && echo "QUIT" | nc localhost 443 &
 
-## Run install script here
-curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add - && \
-echo "license_key: $LICENSE" | sudo tee /etc/newrelic-infra.yml && \
-printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt bionic main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list && \
-sudo apt-get update && \
-sudo apt-get install newrelic-infra -y
-## End of install script
+LICENSE=FAKEFORTEST sudo bash -c '$(curl -L https://raw.githubusercontent.com/fryckbos/infra-install/master/install.sh)'
 
 fg %1
 kill %2
