@@ -33,17 +33,17 @@ variable "product_tag" {
 variable "distros" {
   description = "Distributions to test install (co-indexed with amis and ami_users)"
   type        = list(string)
-  default     = ["ubuntu18", "ubuntu16", "ubuntu14", "ubuntu12"]
+  default     = ["ubuntu20", "ubuntu18", "ubuntu16", "ubuntu14", "ubuntu12"]
 }
 
 variable "amis" {
   description = "AMIs for the distributions to test install"
   type        = list(string)
-  default     = ["ami-0c32816f296ee28e5", "ami-04bfff099c4b1d8ed", "ami-0a273e2936ffb0ab9", "ami-ee0b0688"]
+  default     = ["ami-0383535ce92966dfe", "ami-0c32816f296ee28e5", "ami-04bfff099c4b1d8ed", "ami-0a273e2936ffb0ab9", "ami-ee0b0688"]
 }
 
 variable "ami_users" {
   description = "Users for the distributions to test install"
   type        = list(string)
-  default     = ["ubuntu", "ubuntu", "ubuntu", "ubuntu"]
+  default     = ["ubuntu", "ubuntu", "ubuntu", "ubuntu", "ubuntu"]
 }

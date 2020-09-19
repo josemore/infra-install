@@ -20,7 +20,7 @@ if [ "$DISTRO" == "Ubuntu" ]; then
     RELEASE=$(lsb_release -sc)
 
     if [[ $RELEASE == "focal" ]]; then
-        $RELEASE="bionic"
+        RELEASE="bionic"
     fi
 
     if [[ $RELEASE =~ (bionic|xenial|trusty|precise) ]]; then
