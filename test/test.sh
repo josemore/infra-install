@@ -1,8 +1,8 @@
 #!/bin/bash
 set -m # Enable job control (fg)
 
-which nc >/dev/null || sudo yum install nc -y || sudo apt-get update && sudo apt-get install -y netcat-openbsd
-which curl >/dev/null || sudo apt-get -o Acquire::Check-Valid-Until=false update && sudo apt-get install curl
+which nc >/dev/null || sudo yum install nc -y || (sudo apt-get update && sudo apt-get install -y netcat-openbsd)
+[ "$(lsb_release -sc 2>/dev/null)" == "jessie" ] && sudo apt-get -o Acquire::Check-Valid-Until=false update && sudo apt-get install -y netcat-openbsd curl
 
 sudo sh -c 'cat << EOF >> /etc/hosts
 127.0.0.1 infrastructure-command-api.newrelic.com

@@ -16,9 +16,10 @@ function install_apt {
         sudo apt-get update
         sudo apt-get install newrelic-infra -y
     elif [ "$CODENAME" == "jessie" ]; then
+        curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
         echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
         echo "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
-        sudo apt-get update || echo "Expected failure because of deprecation."
+        sudo apt-get -o Acquire::Check-Valid-Until=false update || echo "Expected failure because of deprecation."
         sudo apt-get install newrelic-infra -y
     else
         unsupported
@@ -37,7 +38,7 @@ function install_redhat {
     fi
 }
 
-DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release 2>/dev/null | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS|Debian)")
+DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release 2>/dev/null | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS|Debian|Red Hat)")
 
 if [ "$DISTRO" == "Ubuntu" ] || [ "$DISTRO" == "Debian" ]; then
     RELEASE=$(lsb_release -sc)
@@ -55,9 +56,14 @@ elif [ "$DISTRO" == "Amazon" ]; then
         install_redhat 6
     fi
 
-elif [ "$DISTRO" == "CentOS" ]; then
-    source /etc/os-release
-    install_redhat $REDHAT_SUPPORT_PRODUCT_VERSION
+elif [ "$DISTRO" == "CentOS" ] || [ "$DISTRO" == "Red Hat" ]; then
+    if [ -e /etc/os-release ]; then
+        source /etc/os-release
+        RELEASE=$(echo $REDHAT_SUPPORT_PRODUCT_VERSION | awk -F. '{ print $1; }')
+    elif [[ "$(cat /etc/redhat-release)" =~ "release 6" ]]; then
+        RELEASE=6
+    fi
+    install_redhat $RELEASE
 
 else
     unsupported
