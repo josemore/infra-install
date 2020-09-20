@@ -1,12 +1,6 @@
 #!/bin/bash
 set -m # Enable job control (fg)
 
-date
-echo "Waiting for cloud-init to complete..."
-sudo cloud-init status --wait 2>/dev/null || while [ ! -e /run/cloud-init/result.json ]; do sleep 1; done
-echo "Cloud init is done"
-date
-
 which nc || sudo yum install nc -y
 
 sudo sh -c 'cat << EOF >> /etc/hosts

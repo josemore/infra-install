@@ -50,6 +50,9 @@ echo
 if cat output | grep '==== Test result' | grep 'failure' 1>/dev/null; then
     echo -e "\033[1;31mOne or more tests failed\033[0m (./test/output contains the full log)"
     exit 1
+elif [ $(cat output | grep '==== Test result' | wc -l) -ne $(($(cat variables.tf | grep -A 4 distros | grep default | grep -o ',' | wc -l) + 1)) ]; then
+    echo -e "\033[1;33mOne or more test results missing\033[0m"
+    exit 2
 else
     echo -e "\033[1;32mAll tests succeeded\033[0m"
     exit 0
