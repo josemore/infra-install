@@ -8,12 +8,17 @@ function unsupported {
 
 function install_apt {
     CODENAME=$1
-    if [[ $CODENAME =~ (bionic|xenial|trusty|precise|buster|stretch|jessie) ]]; then
+    if [[ $CODENAME =~ (bionic|xenial|trusty|precise|buster|stretch) ]]; then
         dpkg -s gnupg >/dev/null 2>/dev/null || sudo apt-get update && sudo apt-get install -y gnupg
         curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
         echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
         echo "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
         sudo apt-get update
+        sudo apt-get install newrelic-infra -y
+    elif [ "$CODENAME" == "jessie" ]; then
+        echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
+        echo "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
+        sudo apt-get update || echo "Expected failure because of deprecation."
         sudo apt-get install newrelic-infra -y
     else
         unsupported

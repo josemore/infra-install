@@ -1,7 +1,8 @@
 #!/bin/bash
 set -m # Enable job control (fg)
 
-which nc || sudo yum install nc -y || sudo apt-get update && sudo apt-get install -y netcat
+which nc >/dev/null || sudo yum install nc -y || sudo apt-get update && sudo apt-get install -y netcat-openbsd
+which curl >/dev/null || sudo apt-get -o Acquire::Check-Valid-Until=false update && sudo apt-get install curl
 
 sudo sh -c 'cat << EOF >> /etc/hosts
 127.0.0.1 infrastructure-command-api.newrelic.com

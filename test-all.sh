@@ -44,7 +44,7 @@ fi
 echo
 echo "Test results"
 echo "============"
-for LINE in $(cat output | grep '==== Test result' | sort | cut -d' ' -f 6-); do echo -e $LINE | tr ':' '\t'; done
+for LINE in $(cat output | grep '==== Test result' | cut -d'[' -f 4- | sort -n | cut -d' ' -f 6-); do echo -e $LINE | tr ':' '\t'; done
 echo
 
 if cat output | grep '==== Test result' | grep 'failure' 1>/dev/null; then
