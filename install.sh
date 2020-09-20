@@ -9,6 +9,7 @@ function unsupported {
 function install_apt {
     CODENAME=$1
     if [[ $CODENAME =~ (bionic|xenial|trusty|precise|buster|stretch|jessie) ]]; then
+        dpkg -s gnupg >/dev/null 2>/dev/null || sudo apt-get update && sudo apt-get install -y gnupg
         curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
         echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
         echo "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
@@ -31,7 +32,7 @@ function install_redhat {
     fi
 }
 
-DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS|Debian)" 2>/dev/null)
+DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release 2>/dev/null | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS|Debian)")
 
 if [ "$DISTRO" == "Ubuntu" ] || [ "$DISTRO" == "Debian" ]; then
     RELEASE=$(lsb_release -sc)
