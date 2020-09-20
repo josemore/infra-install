@@ -6,9 +6,9 @@ function unsupported {
     exit 1
 }
 
-function install_ubuntu {
+function install_apt {
     CODENAME=$1
-    if [[ $CODENAME =~ (bionic|xenial|trusty|precise) ]]; then
+    if [[ $CODENAME =~ (bionic|xenial|trusty|precise|buster|stretch|jessie) ]]; then
         curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
         echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
         echo "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
@@ -31,16 +31,16 @@ function install_redhat {
     fi
 }
 
-DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS)" 2>/dev/null)
+DISTRO=$(cat /etc/issue /etc/system-release /etc/redhat-release | grep -m 1 -Eo "(Ubuntu|Amazon|CentOS|Debian)" 2>/dev/null)
 
-if [ "$DISTRO" == "Ubuntu" ]; then
+if [ "$DISTRO" == "Ubuntu" ] || [ "$DISTRO" == "Debian" ]; then
     RELEASE=$(lsb_release -sc)
 
     if [[ $RELEASE == "focal" ]]; then
         RELEASE="bionic"
     fi
 
-    install_ubuntu $RELEASE
+    install_apt $RELEASE
 
 elif [ "$DISTRO" == "Amazon" ]; then
     if [[ $(cat /etc/system-release) =~ " release 2 " ]]; then
