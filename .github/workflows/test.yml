@@ -11,9 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup ssh keys
+        run: ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ''
+
       - name: Run the tests
         env:
           AWS_DEFAULT_REGION: eu-west-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && ./test-all.sh
+        run: ./test-all.sh
