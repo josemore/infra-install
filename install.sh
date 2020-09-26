@@ -31,8 +31,7 @@ function install_redhat {
     if [[ $RH_RELEASE =~ ^(5|6|7|8)$ ]]; then
         echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
         sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/$RH_RELEASE/x86_64/newrelic-infra.repo
-        sudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'
-        sudo yum install newrelic-infra -y
+        sudo yum -y --disablerepo='*' --enablerepo='newrelic-infra' install newrelic-infra
     else
         unsupported
     fi
