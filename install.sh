@@ -49,10 +49,10 @@ function install_apt {
 
         info "Setting up the New Relic Infrastructure Agent gpg key"
         dpkg -s gnupg >/dev/null 2>/dev/null || sudo apt-get update && sudo apt-get install -y gnupg
-        curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
+        curl -s http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
 
         info "Adding the New Relic Infrastructure Agent apt repo"
-        echo "deb [arch=amd64] http://nr-downloads-ohai-testing.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
+        echo "deb [arch=amd64] http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
 
         info "Updating the apt cache"
         sudo apt-get update
@@ -65,10 +65,10 @@ function install_apt {
         echo "staging: true" | sudo tee -a /etc/newrelic-infra.yml
 
         info "Setting up the New Relic Infrastructure Agent gpg key"
-        curl -s https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
+        curl -s http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
 
         info "Adding the New Relic Infrastructure Agent apt repo"
-        echo "deb [arch=amd64] http://nr-downloads-ohai-testing.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
+        echo "deb [arch=amd64] http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/apt $CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
 
         info "Updating the apt cache"
         sudo apt-get -o Acquire::Check-Valid-Until=false update || echo "Expected failure because of deprecation."
@@ -88,7 +88,7 @@ function install_redhat {
         echo "staging: true" | sudo tee -a /etc/newrelic-infra.yml
 
         info "Adding the New Relic Infrastructure Agent yum repo"
-        sudo curl -o /etc/yum.repos.d/newrelic-infra.repo http://nr-downloads-ohai-testing.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/yum/el/$RH_RELEASE/x86_64/newrelic-infra.repo
+        sudo curl -o /etc/yum.repos.d/newrelic-infra.repo http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/yum/el/$RH_RELEASE/x86_64/newrelic-infra.repo
 
         info "Installing the agent"
         sudo yum -y --disablerepo='*' --enablerepo='newrelic-infra' install newrelic-infra
@@ -105,10 +105,10 @@ function install_suse {
         echo "staging: true" | sudo tee -a /etc/newrelic-infra.yml
 
         info "Setting up the New Relic Infrastructure Agent gpg key"
-        curl -s -o /tmp/newrelic-infra.gpg https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg && sudo rpm --import /tmp/newrelic-infra.gpg
+        curl -s -o /tmp/newrelic-infra.gpg http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/gpg/newrelic-infra.gpg && sudo rpm --import /tmp/newrelic-infra.gpg
 
         info "Adding the New Relic Infrastructure Agent zypper repo"
-        sudo curl -o /etc/zypp/repos.d/newrelic-infra.repo http://nr-downloads-ohai-testing.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/zypp/sles/11.4/x86_64/newrelic-infra.repo
+        sudo curl -o /etc/zypp/repos.d/newrelic-infra.repo http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/linux/zypp/sles/11.4/x86_64/newrelic-infra.repo
 
         info "Updating the zypper cache"
         sudo zypper -n ref -r newrelic-infra
@@ -121,10 +121,10 @@ function install_suse {
         echo "staging: true" | sudo tee -a /etc/newrelic-infra.yml
 
         info "Setting up the New Relic Infrastructure Agent gpg key"
-        curl -s -o /tmp/newrelic-infra.gpg https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg && sudo rpm --import /tmp/newrelic-infra.gpg
+        curl -s -o /tmp/newrelic-infra.gpg http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/gpg/newrelic-infra.gpg && sudo rpm --import /tmp/newrelic-infra.gpg
 
         info "Adding the New Relic Infrastructure Agent zypper repo"
-        sudo curl -o /etc/zypp/repos.d/newrelic-infra.repo http://nr-downloads-ohai-testing.s3-website-us-east-1.amazonaws.com/infrastructure_agent/zypp/sles/12.4/x86_64/newrelic-infra.repo
+        sudo curl -o /etc/zypp/repos.d/newrelic-infra.repo http://nr-downloads-ohai-staging.s3-website-us-east-1.amazonaws.com/infrastructure_agent/zypp/sles/12.4/x86_64/newrelic-infra.repo
 
         info "Updating the zypper cache"
         sudo zypper -n ref -r newrelic-infra
